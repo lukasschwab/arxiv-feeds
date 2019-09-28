@@ -1,0 +1,23 @@
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="entry.css" />
+</head>
+<body>
+  <div id="main" class="container">
+    <div class="col-lg-8">
+      <h1><code>arXiv</code> feeds</h1>
+      <p>Enter an arXiv query to generate a JSON feed.<br />Copy the URL into your feed reader.</p>
+      <div class="input-group mb-3">
+          <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">query</span>
+          </div>
+          <input id="query" type="text" class="form-control" placeholder="au:del_maestro ANDNOT ti:checkerboard" aria-label="Query" aria-describedby="basic-addon1" spellcheck="false">
+      </div>
+      <p class="quiet">
+        <a href="http://lukasschwab.me">Lukas Schwab</a> &middot; testing
+      </p>
+    </div>
+  </div>
+  <div id="footer"></div>
+</body>
+<script type="module" src="entry.js"></script>
