@@ -1,8 +1,10 @@
-from bottle import route, request, response, run, template, static_file
+from bottle import route, request, response, run, template, static_file, Bottle
 import arxiv
 import time
 
-@route('/')
+app = Bottle()
+
+@app.route('/')
 def entry():
     return static_file("entry.html", root='static/')
 
@@ -21,7 +23,7 @@ def entry():
 #     <title type=\"text\">
 #     """ + entries + "</feed>"
 
-@route('/json/<all>')
+@app.route('/json/<all>')
 def json(all):
     response.content_type = 'application/json'
     items = arxiv.query(
@@ -47,8 +49,8 @@ def timesToStrings(entry):
     return entry
 
 # Serve static files generically: helpful for linking CSS/JS from HTML.
-@route('/<filename:path>')
+@app.route('/<filename:path>')
 def send_static(filename):
     return static_file(filename, root='static/')
 
-run(host='localhost', port=8080, reloader=True)
+# run(host='localhost', port=8080, reloader=True)
