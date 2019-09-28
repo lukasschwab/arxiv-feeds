@@ -4,10 +4,7 @@ install:
 	pip3 install -r requirements.txt
 
 run:
-	dev_appserver.py app.yaml
-
-watch:
-	cork-make -p */** -r 'touch main.py'
+	dev_appserver.py --port=8080 app.yaml
 
 open:
 	open http://localhost:8080/

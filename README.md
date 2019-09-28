@@ -9,4 +9,3 @@
 ## TODO
 
 - [ ] Confirm JSON feed reader compatability.
-- [ ] Add utility logging
