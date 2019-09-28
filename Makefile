@@ -9,6 +9,9 @@ run:
 open:
 	open http://localhost:8080/
 
+clean:
+	rm -rf __pycache__
+
 deploy:
 	gcloud app deploy
 
