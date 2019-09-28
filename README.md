@@ -15,7 +15,7 @@ This project provides hosted JSON feeds for [arbitrary arXiv queries](https://ar
 
 ## Useful tools
 
-+ [arxiv.py](https://github.com/lukasschwab/arxiv.py) provides the blood 'n' guts here.
++ [arxiv.py](https://github.com/lukasschwab/arxiv.py) provides the blood 'n' guts.
 + Cribbed some CSS from [ditto](https://github.com/lukasschwab/ditto).
 + *A Dictionary of Color Combinations*.
 + [favicon.io](https://favicon.io/emoji-favicons/) for an emoji favicon.

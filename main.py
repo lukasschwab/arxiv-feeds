@@ -3,6 +3,8 @@ import arxiv
 import time, sys, logging
 from os import getenv
 
+from google.appengine.api import memcache
+
 # Log to stdout in dev.
 if not getenv('SERVER_SOFTWARE', '').startswith('Google App Engine/'):
     logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
@@ -21,6 +23,11 @@ def entry():
 def json(all):
     logging.info("Got feed request.", extra={"query": all})
     response.content_type = 'application/json'
+    cached = memcache.get(all)
+    if cached:
+        logging.info("Serving cached feed.", extra={ "query": all })
+        return cached
+    logging.info("Cache missed: generating new feed.", extra={ "query": all })
     items = arxiv.query(
         search_query=all,
         max_results=20,
@@ -28,8 +35,7 @@ def json(all):
         sort_order="descending",
         prune=True
     )
-    logging.info("Serving feed.", extra={ "query": all, "len": len(items) })
-    return {
+    response = {
         "version": "https://jsonfeed.org/version/1",
         "home_page_url": "https://arxiv.org/", # FIXME
         "icon": "https://arxiv-feeds.appspot.com/favicons/android-chrome-512x512.png",
@@ -39,6 +45,13 @@ def json(all):
         "feed_url": request.url,
         "items": [toFeedEntry(item) for item in items]
     }
+    logging.info("Cacheing and returning generated feed.", extra={ "query": all, "len": len(items) })
+    added = memcache.add(all, response, time=55*60)
+    if added:
+        logging.info("Cache add succeeded.", extra={ "query": all })
+    else:
+        logging.warning("Cache add failed.", extra={ "query": all })
+    return response
 
 def toFeedEntry(i):
     authors = {
