@@ -45,13 +45,13 @@ def toFeedEntry(i):
         "name": ", ".join(i.authors),
         "url": getAuthorsSearch(i.authors)
     }
-    # TODO: IDs should be immutable; these cahnge with versions.
+    maybeSummary = i.get("summary_detail")
     return {
         "id": i.id,
         "url": i.get("arxiv_url"),
         "title": i.get("title"),
-        "summary": i.get("summary_detail.value"),
-        "content_text": i.get("summary_detail.value"),
+        "summary": maybeSummary.value if maybeSummary else None,
+        "content_text": maybeSummary.value if maybeSummary else None,
         "date_published": i.get("published"),
         "date_modified": i.get("date_modified"),
         "author": authors,

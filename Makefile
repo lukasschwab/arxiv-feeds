@@ -1,4 +1,4 @@
-# Dev utilities. Not meaningful for deployment.
+# Dev utilities. No impact on the deployed application.
 
 install:
 	pip3 install -r requirements.txt
