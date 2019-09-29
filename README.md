@@ -1,3 +1,5 @@
+![Renaissance No. 5, Plate LXXVIII from Owen Jones's Grammar of Ornament](./static/header.jpg)
+
 # arxiv-feeds
 
 arXiv provides [RSS feeds for subject areas](https://arxiv.org/help/rss), but does not seem to provide hosted feeds by query. (See also: [arxiv/arxiv-rss](https://github.com/arXiv/arxiv-rss)).
