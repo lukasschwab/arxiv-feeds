@@ -1,4 +1,4 @@
-from bottle import route, request, response, run, template, static_file, Bottle
+from bottle import Bottle, redirect, request, response, route, run, static_file
 import arxiv
 import time, sys, logging
 from os import getenv
@@ -39,6 +39,23 @@ def json(all):
         "feed_url": request.url,
         "items": [toFeedEntry(item) for item in items]
     }
+
+# Serve Atom feeds.
+@app.route('/atom/<all>')
+def atom(all):
+    logging.info("Got Atom feed request.", extra={"query": all})
+    # Creates a search object to avoid duplicating URL-generation logic.
+    search = arxiv.Search(
+        query=all,
+        id_list='',
+        sort_by="lastUpdatedDate",
+        sort_order="descending",
+        prune=True,
+        max_chunk_results=1000
+    )
+    # 301: permanent redirect to the arXiv-hosted URL.
+    arxiv_url = search._get_url(max_results=20)
+    redirect(arxiv_url, 301)
 
 def toFeedEntry(i):
     authors = {

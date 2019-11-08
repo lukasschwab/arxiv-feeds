@@ -26,3 +26,4 @@ This project provides hosted JSON feeds for [arbitrary arXiv queries](https://ar
 ## TODO
 
 - [ ] Cacheing.
+- [ ] UI entry-point for `/atom/<all>` route.
