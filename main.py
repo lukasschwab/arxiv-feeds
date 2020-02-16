@@ -22,7 +22,7 @@ def json(all):
     logging.info("Got feed request.", extra={"query": all})
     response.content_type = 'application/json'
     items = arxiv.query(
-        search_query=all,
+        query=all,
         max_results=20,
         sort_by="lastUpdatedDate",
         sort_order="descending",

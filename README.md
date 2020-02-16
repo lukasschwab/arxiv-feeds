@@ -4,7 +4,7 @@
 
 arXiv provides [RSS feeds for subject areas](https://arxiv.org/help/rss), but does not seem to provide hosted feeds by query. (See also: [arxiv/arxiv-rss](https://github.com/arXiv/arxiv-rss)).
 
-This project provides hosted JSON feeds for [arbitrary arXiv queries](https://arxiv.org/help/api/user-manual#query_details).
+This project provides hosted JSON and Atom feeds for [arbitrary arXiv queries](https://arxiv.org/help/api/user-manual#query_details).
 
 ## Getting started
 
