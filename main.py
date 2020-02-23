@@ -1,7 +1,8 @@
-from bottle import Bottle, redirect, request, response, route, run, static_file
+from bottle import Bottle, redirect, request, response, route, static_file
 import arxiv
 import time, sys, logging
 from os import getenv
+import jsonfeed as jf
 
 # Log to stdout in dev.
 if not getenv('SERVER_SOFTWARE', '').startswith('Google App Engine/'):
@@ -29,16 +30,16 @@ def json(all):
         prune=True
     )
     logging.info("Serving feed.", extra={ "query": all, "len": len(items) })
-    return {
-        "version": "https://jsonfeed.org/version/1",
-        "home_page_url": "https://arxiv.org/", # FIXME
-        "icon": "https://arxiv-feeds.appspot.com/favicons/android-chrome-512x512.png",
-        "favicon": "https://arxiv-feeds.appspot.com/favicons/favicon.ico",
-        "title": "arXiv feed: `{}`".format(all),
-        "description": "arXiv feed for the query `{}`".format(all),
-        "feed_url": request.url,
-        "items": [toFeedEntry(item) for item in items]
-    }
+    feed = jf.Feed(
+        title="arXiv feed: `{}`".format(all),
+        home_page_url="https://arxiv-feeds.appspot.com/",
+        feed_url=request.url,
+        description="arXiv feed for the query `{}`".format(all),
+        icon="https://arxiv-feeds.appspot.com/favicons/android-chrome-512x512.png",
+        favicon="https://arxiv-feeds.appspot.com/favicons/favicon.ico",
+        items=[toFeedEntry(item) for item in items]
+    )
+    return feed.toJSON()
 
 # Serve Atom feeds.
 @app.route('/atom/<all>')
@@ -58,30 +59,30 @@ def atom(all):
     redirect(arxiv_url, 301)
 
 def toFeedEntry(i):
-    authors = {
-        "name": ", ".join(i.authors),
-        "url": getAuthorsSearch(i.authors)
-    }
+    authors = jf.Author(
+        name=", ".join(i.authors),
+        url=getAuthorsSearch(i.authors)
+    )
     maybeSummary = i.get("summary_detail")
-    return {
-        "id": i.id,
-        "url": i.get("arxiv_url"),
-        "title": i.get("title"),
-        "summary": maybeSummary.value if maybeSummary else None,
-        "content_text": maybeSummary.value if maybeSummary else None,
-        "date_published": i.get("published"),
-        "date_modified": i.get("date_modified"),
-        "author": authors,
-        "tags": [tag.term for tag in i.tags],
-        "attachments": getAttachments(i)
-    }
+    return jf.Item(
+        id=i.id,
+        url=i.get("arxiv_url"),
+        title=i.get("title"),
+        summary=maybeSummary.value,
+        content_text=maybeSummary.value,
+        date_published=i.get("published"),
+        date_modified=i.get("date_modified"),
+        author=authors,
+        tags=[tag.term for tag in i.tags],
+        attachments=getAttachments(i)
+    )
 
 def getAttachments(i):
-    return [{
-        "url": i.pdf_url,
-        "mime_type": "application/pdf",
-        "title": "{} (PDF)".format(i.title)
-    }]
+    return [jf.Attachment(
+        url=i.pdf_url,
+        mime_type="application/pdf",
+        title="{} (PDF)".format(i.title)
+    )]
 
 def getAuthorsSearch(authors):
     rootSearchString = "https://arxiv.org/search/?query={}&searchtype=author"
