@@ -2,3 +2,7 @@ runtime: python37
 handlers:
   - url: .*
     script: auto
+# Setting the maximum to 1 instance usually keeps your instance hour usage
+# within the free tier.
+automatic_scaling:
+  max_instances: 1

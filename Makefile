@@ -13,7 +13,7 @@ clean:
 	rm -rf __pycache__
 
 deploy:
-	gcloud app deploy
+	gcloud app deploy --project "arxiv-feeds"
 
 open-prod:
 	gcloud app browse
