@@ -20,7 +20,7 @@ def entry():
 # Serve JSON feeds.
 @app.route('/json/<all>')
 def json(all):
-    logging.info("Got feed request.", extra={"query": all})
+    logging.info("Got JOSN feed request: {all}".format(all=all), extra={"query": all})
     response.content_type = 'application/json'
     items = arxiv.query(
         query=all,
@@ -44,7 +44,7 @@ def json(all):
 # Serve Atom feeds.
 @app.route('/atom/<all>')
 def atom(all):
-    logging.info("Got Atom feed request.", extra={"query": all})
+    logging.info("Got Atom feed request: {all}".format(all=all), extra={"query": all})
     # Creates a search object to avoid duplicating URL-generation logic.
     search = arxiv.Search(
         query=all,

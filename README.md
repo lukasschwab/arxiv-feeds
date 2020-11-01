@@ -27,3 +27,4 @@ This project provides hosted JSON and Atom feeds for [arbitrary arXiv queries](h
 
 - [ ] Cacheing.
 - [ ] UI entry-point for `/atom/<all>` route.
+- [ ] Clean up logging; get structured GAE logging.
