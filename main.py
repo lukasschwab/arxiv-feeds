@@ -59,12 +59,12 @@ def atom(all):
     redirect(arxiv_url, 301)
 
 def toFeedEntry(i):
-    authors = jf.Author(
-        name=", ".join(i.authors),
-        url=getAuthorsSearch(i.authors)
-    )
+    # authors = jf.Author(
+    #     name=", ".join(i.authors),
+    #     url=getAuthorsSearch(i.authors)
+    # )
     maybeSummary = i.get("summary_detail")
-    return jf.Item(
+    i = jf.Item(
         id=i.id,
         url=i.get("arxiv_url"),
         title=i.get("title"),
@@ -72,10 +72,20 @@ def toFeedEntry(i):
         content_text=maybeSummary.value,
         date_published=i.get("published"),
         date_modified=i.get("date_modified"),
-        author=authors,
+        authors=getAuthors(i),
         tags=[tag.term for tag in i.tags],
         attachments=getAttachments(i)
     )
+    print(i.authors)
+    return i
+
+def getAuthors(i):
+    author_search = "https://arxiv.org/search/?query={}&searchtype=author"
+    to_author = lambda name: jf.Author(
+        name=name,
+        url=author_search.format(name.replace(" ", "+"))
+    )
+    return [to_author(name) for name in i.authors]
 
 def getAttachments(i):
     return [jf.Attachment(
