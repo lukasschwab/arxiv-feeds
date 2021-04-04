@@ -14,12 +14,12 @@
       <p>Enter an arXiv query to generate a JSON feed.<br />Copy the URL into your feed reader.</p>
       <div class="input-group mb-3">
           <div class="input-group-prepend">
+              <button id="feed-type" class="btn btn-outline-primary" type="button" value="atom">atom</button>
+          </div>
+          <div class="input-group-prepend">
               <span class="input-group-text" id="basic-addon1">query</span>
           </div>
           <input id="query" type="text" class="form-control" placeholder="au:del_maestro ANDNOT ti:checkerboard" aria-label="Query" aria-describedby="basic-addon1" spellcheck="false">
-          <div class="input-group-append">
-              <button id="feed-type" class="btn btn-outline-primary" type="button" value="atom">atom</button>
-          </div>
       </div>
       <p class="quiet">
         <a href="http://lukasschwab.me">Lukas Schwab</a> &middot; <a href="http://github.com/lukasschwab/arxiv-feeds">arxiv-feeds on GitHub</a>
