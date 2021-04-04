@@ -1,22 +1,29 @@
-console.log("RUNNING RUNNING RUNNING")
+const feedTypeButton = document.getElementById("feed-type")
+feedTypeButton.addEventListener(
+  'click',
+  () => {
+    const next = 'atomjson'.replace(feedTypeButton.value, '')
+    feedTypeButton.value = next
+    feedTypeButton.textContent = next
+  }
+)
 
 document.getElementById("query").addEventListener(
   'keypress',
   (event) => {
-    console.log("GOT EVENT")
+    // Handle 'enter' keypresses.
     if (event.keyCode === 13) {
-      console.log("GOT ENTER")
       event.preventDefault();
-      redirectToAtomFeed();
+      redirectToFeed(feedTypeButton.value);
     }
   }
 )
-function redirectToAtomFeed() {
-  console.log("TESTING")
+
+function redirectToFeed(feedType) {
   const query = document.getElementById("query").value;
   console.log(query)
   if (query.length > 0) {
-      window.location.href = `json/${query}`;
+      window.location.href = `${feedType}/${query}`;
   }
   return false;
 }
