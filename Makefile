@@ -3,6 +3,9 @@
 install:
 	pip3 install -r requirements.txt
 
+lint:
+	flake8 . --count --max-complexity=10 --statistics
+
 run:
 	dev_appserver.py --port=8080 app.yaml
 

@@ -54,7 +54,7 @@ def json(all):
         favicon="https://arxiv-feeds.appspot.com/favicons/favicon.ico",
         items=[toFeedEntry(item) for item in items]
     )
-    return feed.toJSON(indent="\t")
+    return feed.to_json(indent="\t")
 
 
 # Serve Atom feeds.
